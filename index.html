@@ -120,33 +120,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* Білім және ғылым саласына сай анимациялық иконкалар */
-        .science-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .science-icons span {
-            display: inline-block;
-            animation: floatIcon 3s ease-in-out infinite;
-        }
-
-        .science-icons span:nth-child(2) {
-            animation-delay: 1s;
-        }
-
-        .science-icons span:nth-child(3) {
-            animation-delay: 2s;
-        }
-
-        @keyframes floatIcon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
-
         h1 {
             font-size: 1.45rem;
             color: var(--deep-blue);
@@ -196,6 +169,7 @@
             box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
         }
 
+        /* Іздеу жолағының ішіндегі жылжитын қос мысал */
         .placeholder-ticker {
             position: absolute;
             top: 50%;
@@ -211,7 +185,7 @@
 
         .ticker-inner {
             display: inline-block;
-            animation: tickerMove 14s linear infinite;
+            animation: tickerMove 16s linear infinite;
         }
 
         @keyframes tickerMove {
@@ -293,13 +267,6 @@
 
     <main>
         <div class="container">
-            <!-- Білім мен ғылым иконкаларының жеңіл анимациясы -->
-            <div class="science-icons">
-                <span>📖</span>
-                <span>🎓</span>
-                <span>📜</span>
-            </div>
-
             <h1 id="mainTitle">Түпнұсқалықты анықтау модулі</h1>
             <p id="mainDesc">Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз</p>
             
