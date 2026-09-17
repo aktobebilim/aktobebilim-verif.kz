@@ -51,6 +51,12 @@
             border-radius: 50%;
         }
 
+        .header-right-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
         .header-logo-rect {
             height: 38px;
             object-fit: contain;
@@ -112,6 +118,33 @@
             width: 100%;
             text-align: center;
             border: 1px solid var(--border-color);
+        }
+
+        /* Білім және ғылым саласына сай анимациялық иконкалар */
+        .science-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .science-icons span {
+            display: inline-block;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        .science-icons span:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .science-icons span:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
         h1 {
@@ -249,15 +282,24 @@
             </div>
         </div>
         
-        <div class="lang-switcher">
-            <button class="lang-btn active" id="btnKK" onclick="setLanguage('kk')">KZ</button>
-            <button class="lang-btn" id="btnRU" onclick="setLanguage('ru')">RU</button>
+        <div class="header-right-area">
+            <div class="lang-switcher">
+                <button class="lang-btn active" id="btnKK" onclick="setLanguage('kk')">KZ</button>
+                <button class="lang-btn" id="btnRU" onclick="setLanguage('ru')">RU</button>
+            </div>
+            <img src="bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'">
         </div>
-        <img src="bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'" style="display:none;">
     </header>
 
     <main>
         <div class="container">
+            <!-- Білім мен ғылым иконкаларының жеңіл анимациясы -->
+            <div class="science-icons">
+                <span>📖</span>
+                <span>🎓</span>
+                <span>📜</span>
+            </div>
+
             <h1 id="mainTitle">Түпнұсқалықты анықтау модулі</h1>
             <p id="mainDesc">Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз</p>
             
@@ -296,7 +338,7 @@
                 successMsg: " бойынша деректер жүйеден табылды және түпнұсқа болып расталды."
             },
             ru: {
-                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
+                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЮБИНСК",
                 headerTitle: "ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
                 mainTitle: "Модуль проверки подлинности",
                 mainDesc: "Введите данные для проверки подлинности документа или сертификата",
