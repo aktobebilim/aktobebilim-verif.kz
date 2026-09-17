@@ -2,479 +2,671 @@
 <html lang="kk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | «АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ</title>
     <style>
         :root {
-            --primary-bg: #f8fafc;
-            --accent-blue: #0284c7;
-            --accent-hover: #0369a1;
+            --primary-bg: #0a192f;
+            --primary-light: #172a45;
+            --accent-blue: #1d4ed8;
+            --accent-hover: #1e40af;
             --card-bg: #ffffff;
             --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --deep-blue: #0f172a;
+            --text-muted: #475569;
+            --border-color: #cbd5e1;
+            --deep-blue: #0f2b46;
         }
 
-        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
 
-        body {
-            background-color: var(--primary-bg);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 30px;
-            display: flex;
-            align-items: center;
+        body { 
+            background-color: #f1f5f9; 
+            color: var(--text-dark); 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
             justify-content: space-between;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            position: relative;
+            overflow-x: hidden;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        /* Қазақы ою фона фон үшін */
+        .side-ornament {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            z-index: 1;
+            pointer-events: none;
+            background-repeat: repeat-y;
+            background-position: center top;
+            background-size: 30px auto;
+            opacity: 0.18;
+        }
+        .left-ornament { left: 2px; background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAJoAnIBCAB/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA='); }
+        .right-ornament { right: 2px; background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAJoAnIBCAB/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA='); }
+        @media (max-width: 768px) {
+            .side-ornament { width: 16px; background-size: 14px auto; opacity: 0.1; }
         }
 
-        .header-logo-circle {
-            height: 42px;
-            width: 42px;
-            object-fit: contain;
-            border-radius: 50%;
-        }
-
-        .header-right-area {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header-logo-rect {
-            height: 38px;
-            object-fit: contain;
-        }
-
-        .header-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--deep-blue);
-            line-height: 1.2;
-        }
-
-        .header-subtitle {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .lang-switcher {
-            display: flex;
-            background: #f1f5f9;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 3px;
-        }
-
-        .lang-btn {
-            background: transparent;
-            border: none;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-
-        .lang-btn.active {
+        /* Жоғарғы панель (Шапка) */
+        header {
             background: #ffffff;
-            color: var(--accent-blue);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #e2e8f0;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
         }
 
-        main {
-            flex: 1;
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 38px;
+            height: 38px;
+            background: #dbeafe;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            flex-shrink: 0;
         }
 
-        .container {
-            background: var(--card-bg);
-            padding: 40px 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            max-width: 520px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
+        .logo-circle svg { width: 22px; height: 22px; }
 
-        h1 {
-            font-size: 1.4rem;
+        .brand-text h2 {
+            font-size: 11px;
+            font-weight: 800;
             color: var(--deep-blue);
-            margin-bottom: 8px;
-            font-weight: 700;
+            margin: 0 0 2px 0;
+            line-height: 1.2;
         }
 
-        p {
+        .brand-text p {
+            font-size: 9px;
             color: var(--text-muted);
-            font-size: 0.88rem;
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
+            margin: 0;
             font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            color: var(--text-dark);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lang-select {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #ffffff;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--deep-blue);
+            transition: 0.2s;
+        }
+        .lang-select:hover { border-color: var(--accent-blue); background: #f8fafc; }
+
+        /* Орталық контент */
+        main {
+            max-width: 580px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            flex: 1;
+        }
+
+        /* Анимациялық иконкалар блогы */
+        .animated-icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .icon-box {
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(15,43,70,0.05);
+        }
+
+        .floating-elem { animation: floatUpDown 3s ease-in-out infinite; }
+        .rotating-elem { animation: rotateOrbit 10s linear infinite; }
+        .pulsing-elem { animation: pulseGlow 2s ease-in-out infinite; }
+
+        @keyframes floatUpDown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes rotateOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 8px rgba(29,78,216,0.3)); }
+        }
+
+        .center-logo-box {
+            margin-bottom: 6px;
+        }
+        .center-logo-box .logo-circle {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+        }
+        .center-logo-box .logo-circle svg { width: 30px; height: 30px; }
+
+        .main-title-group h2 {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--deep-blue);
+            margin: 0 0 3px 0;
+            line-height: 1.3;
+        }
+
+        .main-title-group p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin: 0 0 14px 0;
+            font-weight: 600;
+        }
+
+        .registry-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: var(--accent-blue);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .section-heading {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--deep-blue);
+            margin: 0 0 10px 0;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .section-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0 auto 24px auto;
+            max-width: 480px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        /* Іздеу карточкасы */
+        .search-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 22px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(15, 43, 70, 0.08);
+            width: 100%;
+            text-align: left;
         }
 
         .input-wrapper {
             position: relative;
-            width: 100%;
+            margin-bottom: 14px;
+        }
+
+        .input-wrapper svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--text-muted);
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 14px 16px;
+            background: #f8fafc;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
+            padding: 14px 14px 14px 44px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--deep-blue);
+            font-weight: 500;
             outline: none;
-            background-color: #fafafa;
-            color: var(--text-dark);
+            transition: 0.2s;
         }
 
         input[type="text"]:focus {
             border-color: var(--accent-blue);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
         }
 
-        .placeholder-ticker {
-            position: absolute;
-            top: 50%;
-            left: 16px;
-            transform: translateY(-50%);
-            width: calc(100% - 32px);
-            overflow: hidden;
-            pointer-events: none;
-            white-space: nowrap;
+        input[type="text"]::placeholder {
             color: #94a3b8;
-            font-size: 0.95rem;
         }
 
-        .ticker-inner {
-            display: inline-block;
-            animation: tickerMove 16s linear infinite;
-        }
-
-        @keyframes tickerMove {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        input[type="text"]:not(:placeholder-shown) + .placeholder-ticker {
-            display: none;
-        }
-
-        button.action-btn {
-            background-color: var(--accent-blue);
+        button.search-btn {
+            width: 100%;
+            background: var(--deep-blue);
             color: white;
             border: none;
-            border-radius: 10px;
-            padding: 14px 20px;
-            font-size: 1rem;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 5px;
-        }
-
-        button.action-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .result-box {
-            margin-top: 20px;
-            padding: 16px 20px;
+            padding: 14px;
             border-radius: 12px;
-            font-size: 0.88rem;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(15, 43, 70, 0.2);
+        }
+
+        button.search-btn svg { width: 16px; height: 16px; }
+        button.search-btn:hover { background: var(--accent-blue); }
+
+        /* Нәтижелер */
+        #results { width: 100%; margin-top: 20px; }
+
+        .cert-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 10px rgba(15, 43, 70, 0.04);
             text-align: left;
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
+            animation: fadeIn 0.3s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .result-success {
-            background-color: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            color: #15803d;
-        }
-
-        .result-error {
-            background-color: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #b91c1c;
-            text-align: center;
-        }
-
-        .doc-details-title {
+        .badge-valid {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #f0fdf4;
+            color: #16a34a;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
             margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid #bbf7d0;
-            padding-bottom: 8px;
+            border: 1px solid #bbf7d0;
         }
 
-        .doc-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
-        .doc-row:last-child {
-            margin-bottom: 0;
+        .info-group { margin-bottom: 4px; }
+        .info-group.full { grid-column: span 2; }
+
+        .info-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
-        .doc-label {
-            color: #166534;
+        .info-value {
+            font-size: 14px;
+            color: var(--deep-blue);
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .error {
+            color: #dc2626;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 13px;
             font-weight: 600;
         }
 
-        .doc-value {
-            color: #14532d;
+        .loading {
+            color: var(--accent-blue);
+            font-size: 13px;
             font-weight: 600;
-            text-align: right;
+            text-align: center;
+            margin-top: 10px;
         }
 
+        .result-count {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        /* Футер (Қою көк түсте) */
         footer {
+            background: var(--deep-blue);
+            color: #cbd5e1;
             text-align: center;
             padding: 20px;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-            background: var(--card-bg);
+            font-size: 11px;
+            font-weight: 500;
+            border-top: 1px solid #1e3a5f;
+            z-index: 10;
+            position: relative;
+        }
+
+        @media (max-width: 480px) {
+            header { padding: 10px 14px; }
+            .brand-text h2 { font-size: 10px; }
+            .section-heading { font-size: 20px; }
+            .search-card { padding: 16px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .info-group.full { grid-column: span 1; }
         }
     </style>
 </head>
 <body>
 
+    <div class="side-ornament left-ornament"></div>
+    <div class="side-ornament right-ornament"></div>
+
+    <!-- Жоғарғы панель -->
     <header>
-        <div class="header-left">
-            <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="header-logo-circle" onerror="this.style.display='none'">
-            <div>
-                <div class="header-title" id="headerTitle">АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</div>
-                <div class="header-subtitle">«BILIM QAZYNA» КММ</div>
+        <div class="brand-container">
+            <div class="logo-circle">
+                <svg viewBox="0 0 24 24" fill="#1d4ed8"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+            </div>
+            <div class="brand-text">
+                <h2 id="hdr-title">«АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ</h2>
+                <p id="hdr-sub">Білім бөлімі • "BILIM QAZYNA" КММ</p>
             </div>
         </div>
-        
-        <div class="header-right-area">
-            <div class="lang-switcher">
-                <button class="lang-btn active" id="btnKK" onclick="setLanguage('kk')">KZ</button>
-                <button class="lang-btn" id="btnRU" onclick="setLanguage('ru')">RU</button>
+        <div class="header-controls">
+            <div class="lang-select" onclick="toggleLanguage()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span id="currentLangLabel">ҚАЗ</span>
             </div>
-            <img src="bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'">
         </div>
     </header>
 
+    <!-- Негізгі бөлім -->
     <main>
-        <div class="container">
-            <h1 id="mainTitle">Түпнұсқалықты анықтау модулі</h1>
-            <p id="mainDesc">Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз</p>
-            
-            <div class="input-group">
-                <label id="inputLabel" for="docId">Құжат коды немесе аты-жөніңізді енгізіңіз</label>
-                
-                <div class="input-wrapper">
-                    <input type="text" id="docId" placeholder="" oninput="handleInput(this)">
-                    <div class="placeholder-ticker" id="tickerPlaceholder">
-                        <div class="ticker-inner" id="tickerText">Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы</div>
-                    </div>
-                </div>
+        <!-- Анимациялық иконкалар тобы -->
+        <div class="animated-icons-container">
+            <div class="icon-box floating-elem" title="Білім">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             </div>
-
-            <button class="action-btn" id="checkBtn" onclick="checkDocument()">Тексеру</button>
-            <div id="resultBox" class="result-box"></div>
+            <div class="icon-box rotating-elem" title="Инновация">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f2b46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </div>
+            <div class="icon-box pulsing-elem" title="Жетістік">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
         </div>
+
+        <div class="center-logo-box">
+            <div class="logo-circle">
+                <svg viewBox="0 0 24 24" fill="#1d4ed8"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+            </div>
+            <div class="main-title-group" style="margin-top: 6px;">
+                <h2 id="cntr-title">«АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ</h2>
+                <p id="cntr-sub">Білім бөлімі • "BILIM QAZYNA" КММ</p>
+            </div>
+        </div>
+
+        <div class="registry-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            <span id="registryText">Ресми тіркеу базасы</span>
+        </div>
+
+        <h1 class="section-heading" id="mainHeading">ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ</h1>
+        <p class="section-desc" id="mainDesc">Педагогтер мен қатысушыларға табысталған сертификаттар мен марапаттардың деректер базасындағы заңдылығын растау</p>
+
+        <!-- Іздеу карточкасы -->
+        <div class="search-card">
+            <div class="input-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Код немесе аты-жөні (мысалы: 2026-000001 немесе Айдын)" onkeypress="if(event.key === 'Enter') searchCert()">
+            </div>
+            <button class="search-btn" onclick="searchCert()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <span id="searchBtnText">Тексеру</span>
+            </button>
+            <div id="status"></div>
+        </div>
+
+        <!-- Нәтижелер -->
+        <div id="results"></div>
     </main>
 
-    <footer id="footerText">
-        &copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.
+    <!-- Футер -->
+    <footer>
+        <span id="footerText">© 2026 «АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ. БАРЛЫҚ ҚҰҚЫҚТАР ҚОРҒАЛҒАН.</span>
     </footer>
 
     <script>
-        const translations = {
-            kk: {
-                title: "ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ",
-                headerTitle: "АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ",
-                mainTitle: "Түпнұсқалықты анықтау модулі",
-                mainDesc: "Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз",
-                inputLabel: "Құжат коды немесе аты-жөніңізді енгізіңіз",
-                tickerText: "Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы",
-                checkBtn: "Тексеру",
-                footer: "&copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.",
-                emptyError: "Құжат кодын немесе аты-жөнді енгізіңіз!",
-                notFoundError: "Деректер қорынан бұл мәлімет бойынша құжат табылмады.",
-                loadingText: "Ізделіп жатыр...",
-                docTitle: "Құжат түпнұсқасы расталды",
-                lblOwner: "Аты-жөні:",
-                lblCode: "Тіркеу коды:",
-                lblType: "Құжат түрі:",
-                lblOrg: "Берген мекеме:",
-                lblDate: "Берілген күні:",
-                lblStatus: "Мәртебесі:",
-                statusActive: "Белсенді (Түпнұсқа)"
-            },
-            ru: {
-                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
-                headerTitle: "ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
-                mainTitle: "Модуль проверки подлинности",
-                mainDesc: "Введите данные для проверки подлинности документа или сертификата",
-                inputLabel: "Введите код документа или ФИО",
-                tickerText: "Например: BQ-D-2026-478 или Азаматов Айдын Жарасұлы",
-                checkBtn: "Проверить",
-                footer: "&copy; 2026 КГУ «BILIM QAZYNA». Все права защищены.",
-                emptyError: "Введите код документа или ФИО!",
-                notFoundError: "Документ с такими данными не найден в базе.",
-                loadingText: "Поиск...",
-                docTitle: "Подлинность документа подтверждена",
-                lblOwner: "ФИО владельца:",
-                lblCode: "Регистрационный код:",
-                lblType: "Тип документа:",
-                lblOrg: "Выдавший орган:",
-                lblDate: "Дата выдачи:",
-                lblStatus: "Статус:",
-                statusActive: "Активен (Оригинал)"
-            }
-        };
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTf6CyQdk3tgUf_IDLip4JQdx-HzlboNr2Qg4n22XLz0UD1FActFWorX6ZiJ4miC9WxtrlOVkEWeYDc/pub?output=csv";
 
         let currentLang = 'kk';
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.getElementById('btnKK').className = lang === 'kk' ? 'lang-btn active' : 'lang-btn';
-            document.getElementById('btnRU').className = lang === 'ru' ? 'lang-btn active' : 'lang-btn';
-
-            document.getElementById('headerTitle').innerText = translations[lang].headerTitle;
-            document.getElementById('mainTitle').innerText = translations[lang].mainTitle;
-            document.getElementById('mainDesc').innerText = translations[lang].mainDesc;
-            document.getElementById('inputLabel').innerText = translations[lang].inputLabel;
-            document.getElementById('tickerText').innerText = translations[lang].tickerText;
-            document.getElementById('checkBtn').innerText = translations[lang].checkBtn;
-            document.getElementById('footerText').innerHTML = translations[lang].footer;
-            document.title = translations[lang].title;
-
-            document.getElementById('resultBox').style.display = 'none';
-            document.getElementById('docId').value = '';
-            document.getElementById('tickerPlaceholder').style.display = 'block';
-        }
-
-        function handleInput(input) {
-            const ticker = document.getElementById('tickerPlaceholder');
-            if (input.value.trim() !== '') {
-                ticker.style.display = 'none';
-            } else {
-                ticker.style.display = 'block';
+        const translations = {
+            kk: {
+                hdrTitle: "«АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ",
+                hdrSub: 'Білім бөлімі • "BILIM QAZYNA" КММ',
+                registry: "Ресми тіркеу базасы",
+                heading: "ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ",
+                desc: "Педагогтер мен қатысушыларға табысталған сертификаттар мен марапаттардың деректер базасындағы заңдылығын растау",
+                placeholder: "Код немесе аты-жөні (мысалы: 2026-000001 немесе Айдын)",
+                btnText: "Тексеру",
+                footer: "© 2026 «АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ. БАРЛЫҚ ҚҰҚЫҚТАР ҚОРҒАЛҒАН.",
+                validDoc: "✓ Құжат жарамды",
+                docCode: "Құжат коды",
+                issueDate: "Берілген күні",
+                fullName: "Аты-жөні",
+                eventTitle: "Шара атауы",
+                eventType: "Шараның түрі",
+                docType: "Құжат түрі",
+                notFound: "Сәйкес құжат немесе тұлға табылмады.",
+                emptyError: "Іздеу өрісі бос болмауы тиіс!",
+                loading: "Деректер ізделуде...",
+                errorNet: "Қате орын алды. Желіні тексеріңіз."
+            },
+            ru: {
+                hdrTitle: "УПРАВЛЕНИЕ «ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТОБЕ» ГУ", // немесе ресми орысша атауы
+                hdrSub: 'Отдел образования • КГУ "BILIM QAZYNA"',
+                registry: "Официальная база регистрации",
+                heading: "МОДУЛЬ ОПРЕДЕЛЕНИЯ ПОДЛИННОСТИ",
+                desc: "Подтверждение подлинности сертификатов и наград, выданных педагогам и участникам, в базе данных",
+                placeholder: "Код или ФИО (например: 2026-000001 или Айдын)",
+                btnText: "Проверить",
+                footer: "© 2026 «АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ. ВСЕ ПРАВА ЗАЩИЩЕНЫ.",
+                validDoc: "✓ Документ действителен",
+                docCode: "Код документа",
+                issueDate: "Дата выдачи",
+                fullName: "ФИО",
+                eventTitle: "Название мероприятия",
+                eventType: "Тип мероприятия",
+                docType: "Тип документа",
+                notFound: "Соответствующий документ или лицо не найдено.",
+                emptyError: "Поле поиска не должно быть пустым!",
+                loading: "Поиск данных...",
+                errorNet: "Произошла ошибка. Проверьте сеть."
             }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'kk' ? 'ru' : 'kk';
+            document.getElementById('currentLangLabel').innerText = currentLang === 'kk' ? 'ҚАЗ' : 'РУС';
+            
+            const t = translations[currentLang];
+            document.getElementById('hdr-title').innerText = t.hdrTitle;
+            document.getElementById('hdr-sub').innerText = t.hdrSub;
+            document.getElementById('cntr-title').innerText = t.hdrTitle;
+            document.getElementById('cntr-sub').innerText = t.hdrSub;
+            document.getElementById('registryText').innerText = t.registry;
+            document.getElementById('mainHeading').innerText = t.heading;
+            document.getElementById('mainDesc').innerText = t.desc;
+            document.getElementById('searchInput').placeholder = t.placeholder;
+            document.getElementById('searchBtnText').innerText = t.btnText;
+            document.getElementById('footerText').innerText = t.footer;
+            
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('status').innerHTML = '';
         }
 
-        async function checkDocument() {
-            const rawVal = document.getElementById('docId').value.trim().toLowerCase();
-            const resultBox = document.getElementById('resultBox');
-            const checkBtn = document.getElementById('checkBtn');
-            const t = translations[currentLang];
+        function parseCSV(text) {
+            let lines = [];
+            let row = [''];
+            let inQuotes = false;
             
-            if(!rawVal) {
-                resultBox.style.display = 'block';
-                resultBox.className = 'result-box result-error';
-                resultBox.innerHTML = t.emptyError;
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i];
+                let nextC = text[i + 1];
+                if (c === '"') {
+                    if (inQuotes && nextC === '"') { row[row.length - 1] += '"'; i++; }
+                    else { inQuotes = !inQuotes; }
+                } else if (c === ',' && !inQuotes) {
+                    row.push('');
+                } else if ((c === '\r' && nextC === '\n') || (c === '\n' && !inQuotes)) {
+                    if (c === '\r') i++;
+                    lines.push(row);
+                    row = [''];
+                } else {
+                    row[row.length - 1] += c;
+                }
+            }
+            if (row.length > 1 || row[0] !== '') lines.push(row);
+            return lines;
+        }
+
+        async function searchCert() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('results');
+            const statusDiv = document.getElementById('status');
+            const t = translations[currentLang];
+
+            resultsDiv.innerHTML = '';
+            
+            if (!query) {
+                statusDiv.innerHTML = `<div class="error" style="margin-top:10px;">${t.emptyError}</div>`;
                 return;
             }
 
-            checkBtn.disabled = true;
-            resultBox.style.display = 'block';
-            resultBox.className = 'result-box';
-            resultBox.style.background = '#f1f5f9';
-            resultBox.style.color = '#475569';
-            resultBox.innerHTML = t.loadingText;
-
-            const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTf6CyQdk3tgUf_IDLip4JQdx-HzlboNr2Qg4n22XLz0UD1FActFWorX6ZiJ4miC9WxtrlOVkEWeYDc/pub?output=csv";
+            statusDiv.innerHTML = `<div class="loading">${t.loading}</div>`;
 
             try {
-                const response = await fetch(CSV_URL);
+                const response = await fetch(SHEET_CSV_URL);
                 const data = await response.text();
-                
-                const rows = data.split('\n');
-                let found = null;
+                const rows = parseCSV(data);
+
+                statusDiv.innerHTML = '';
+                let matches = [];
 
                 for (let i = 1; i < rows.length; i++) {
-                    const row = rows[i].trim();
-                    if (!row) continue;
-                    
-                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    const owner = cols[0] ? cols[0].replace(/"/g, '').trim() : "";
-                    const code = cols[1] ? cols[1].replace(/"/g, '').trim() : "";
-
-                    if (owner.toLowerCase().includes(rawVal) || code.toLowerCase().includes(rawVal)) {
-                        found = {
-                            owner: owner,
-                            code: code,
-                            docType: cols[2] ? cols[2].replace(/"/g, '').trim() : "Сертификат / Куәлік",
-                            org: cols[3] ? cols[3].replace(/"/g, '').trim() : "«BILIM QAZYNA» КММ",
-                            date: cols[4] ? cols[4].replace(/"/g, '').trim() : "17.09.2026"
-                        };
-                        break;
+                    const row = rows[i];
+                    if (row.length > 0 && row.some(cell => cell.trim() !== '')) {
+                        const rowString = row.join(' ').toLowerCase();
+                        if (rowString.includes(query)) {
+                            matches.push(row);
+                        }
                     }
                 }
 
-                if (found) {
-                    resultBox.className = 'result-box result-success';
-                    resultBox.innerHTML = `
-                        <div class="doc-details-title">✓ ${t.docTitle}</div>
-                        <div class="doc-row"><span class="doc-label">${t.lblOwner}</span><span class="doc-value">${found.owner}</span></div>
-                        <div class="doc-row"><span class="doc-label">${t.lblCode}</span><span class="doc-value">${found.code}</span></div>
-                        <div class="doc-row"><span class="doc-label">${t.lblType}</span><span class="doc-value">${found.docType}</span></div>
-                        <div class="doc-row"><span class="doc-label">${t.lblOrg}</span><span class="doc-value">${found.org}</span></div>
-                        <div class="doc-row"><span class="doc-label">${t.lblDate}</span><span class="doc-value">${found.date}</span></div>
-                        <div class="doc-row"><span class="doc-label">${t.lblStatus}</span><span class="doc-value" style="color: #15803d; font-weight: 700;">${t.statusActive}</span></div>
-                    `;
+                if (matches.length === 0) {
+                    resultsDiv.innerHTML = `<div class="error">${t.notFound}</div>`;
                 } else {
-                    resultBox.className = 'result-box result-error';
-                    resultBox.innerHTML = t.notFoundError;
+                    let htmlContent = `<div class="result-count">${currentLang === 'kk' ? 'Табылған нәтиже:' : 'Найденных результатов:'} ${matches.length}</div>`;
+                    
+                    matches.forEach(row => {
+                        const code = row[0] || '-';
+                        const name = row[1] || '-';
+                        const course = row[2] || '-';
+                        const eventType = row[3] || '-';      
+                        let docType = row[4] || 'Сертификат';  
+                        const date = row[5] || '';             
+                        const award = row[6] || '';            
+
+                        if (award && award.trim() !== '') {
+                            docType += ` (${award})`;
+                        }
+                        
+                        htmlContent += `
+                            <div class="cert-card">
+                                <div><span class="badge-valid">${t.validDoc}</span></div>
+                                <div class="info-grid">
+                                    <div class="info-group">
+                                        <div class="info-label">${t.docCode}</div>
+                                        <div class="info-value">${code}</div>
+                                    </div>
+                                    <div class="info-group">
+                                        <div class="info-label">${t.issueDate}</div>
+                                        <div class="info-value">${date || '-'}</div>
+                                    </div>
+                                    <div class="info-group full">
+                                        <div class="info-label">${t.fullName}</div>
+                                        <div class="info-value">${name}</div>
+                                    </div>
+                                    <div class="info-group full">
+                                        <div class="info-label">${t.eventTitle}</div>
+                                        <div class="info-value">${course}</div>
+                                    </div>
+                                    <div class="info-group">
+                                        <div class="info-label">${t.eventType}</div>
+                                        <div class="info-value">${eventType}</div>
+                                    </div>
+                                    <div class="info-group">
+                                        <div class="info-label">${t.docType}</div>
+                                        <div class="info-value">${docType}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    resultsDiv.innerHTML = htmlContent;
                 }
-            } catch (error) {
-                resultBox.className = 'result-box result-error';
-                resultBox.innerHTML = "Қате орын алды. Интернет байланысын немесе кесте сілтемесін тексеріңіз.";
-            } finally {
-                checkBtn.disabled = false;
+
+            } catch (err) {
+                statusDiv.innerHTML = `<div class="error">${t.errorNet}</div>`;
             }
         }
     </script>
