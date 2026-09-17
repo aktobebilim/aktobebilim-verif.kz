@@ -1,28 +1,75 @@
-function doGet(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var rows = sheet.getDataRange().getValues();
-  var query = e.parameter.q ? e.parameter.q.toString().trim().toLowerCase() : "";
+async function checkDocument() {
+            const rawVal = document.getElementById('docId').value.trim().toLowerCase();
+            const resultBox = document.getElementById('resultBox');
+            const checkBtn = document.getElementById('checkBtn');
+            const t = translations[currentLang];
+            
+            if(!rawVal) {
+                resultBox.style.display = 'block';
+                resultBox.className = 'result-box result-error';
+                resultBox.innerHTML = t.emptyError;
+                return;
+            }
 
-  var result = { status: "not_found" };
+            checkBtn.disabled = true;
+            resultBox.style.display = 'block';
+            resultBox.className = 'result-box';
+            resultBox.style.background = '#f1f5f9';
+            resultBox.style.color = '#475569';
+            resultBox.innerHTML = t.loadingText;
 
-  for (var i = 1; i < rows.length; i++) {
-    var row = rows[i];
-    var fullName = row[0] ? row[0].toString().trim() : ""; // Аты-жөні (1-ші баған)
-    var regCode = row[1] ? row[1].toString().trim() : "";   // Тіркеу коды (2-ші баған)
+            // Сіз берген Google Sheets CSV сілтемесі
+            const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTf6CyQdk3tgUf_IDLip4JQdx-HzlboNr2Qg4n22XLz0UD1FActFWorX6ZiJ4miC9WxtrlOVkEWeYDc/pub?output=csv";
 
-    if (fullName.toLowerCase().includes(query) || regCode.toLowerCase().includes(query)) {
-      result = {
-        status: "success",
-        owner: fullName,
-        code: regCode,
-        docType: row[2] ? row[2].toString() : "Сертификат / Куәлік",
-        org: row[3] ? row[3].toString() : "«BILIM QAZYNA» КММ",
-        date: row[4] ? row[4].toString() : "17.09.2026"
-      };
-      break;
-    }
-  }
+            try {
+                const response = await fetch(CSV_URL);
+                const data = await response.text();
+                
+                // CSV мәтінін жолдарға бөлу
+                const rows = data.split('\n');
+                let found = null;
 
-  return ContentService.createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+                // 1-жолдан бастап іздейміз (тақырыпты аттап өтіп)
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i].trim();
+                    if (!row) continue;
+                    
+                    // Үтір немесе нүктелі үтір арқылы бағандарға бөлу
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    const owner = cols[0] ? cols[0].replace(/"/g, '').trim() : "";
+                    const code = cols[1] ? cols[1].replace(/"/g, '').trim() : "";
+
+                    if (owner.toLowerCase().includes(rawVal) || code.toLowerCase().includes(rawVal)) {
+                        found = {
+                            owner: owner,
+                            code: code,
+                            docType: cols[2] ? cols[2].replace(/"/g, '').trim() : "Сертификат / Куәлік",
+                            org: cols[3] ? cols[3].replace(/"/g, '').trim() : "«BILIM QAZYNA» КММ",
+                            date: cols[4] ? cols[4].replace(/"/g, '').trim() : "17.09.2026"
+                        };
+                        break;
+                    }
+                }
+
+                if (found) {
+                    resultBox.className = 'result-box result-success';
+                    resultBox.innerHTML = `
+                        <div class="doc-details-title">✓ ${t.docTitle}</div>
+                        <div class="doc-row"><span class="doc-label">${t.lblOwner}</span><span class="doc-value">${found.owner}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblCode}</span><span class="doc-value">${found.code}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblType}</span><span class="doc-value">${found.docType}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblOrg}</span><span class="doc-value">${found.org}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblDate}</span><span class="doc-value">${found.date}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblStatus}</span><span class="doc-value" style="color: #15803d; font-weight: 700;">${t.statusActive}</span></div>
+                    `;
+                } else {
+                    resultBox.className = 'result-box result-error';
+                    resultBox.innerHTML = t.notFoundError;
+                }
+            } catch (error) {
+                resultBox.className = 'result-box result-error';
+                resultBox.innerHTML = "Қате орын алды. Интернет байланысын немесе кесте сілтемесін тексеріңіз.";
+            } finally {
+                checkBtn.disabled = false;
+            }
+        }
