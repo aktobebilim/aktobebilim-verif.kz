@@ -214,7 +214,6 @@
             background-color: var(--accent-hover);
         }
 
-        /* Толық мәліметтер шығатын блок стилі */
         .result-box {
             margin-top: 20px;
             padding: 16px 20px;
@@ -272,7 +271,7 @@
 
         .doc-value {
             color: #14532d;
-            font-weight: 500;
+            font-weight: 600;
             text-align: right;
         }
 
@@ -405,16 +404,29 @@
             }
         }
 
+        function formatName(str) {
+            // Енгізілген сөзді әдемі бас әріппен бастауға арналған функция
+            return str.trim().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
+
         function checkDocument() {
-            const val = document.getElementById('docId').value.trim();
+            const rawVal = document.getElementById('docId').value.trim();
             const resultBox = document.getElementById('resultBox');
             const t = translations[currentLang];
             
-            if(!val) {
+            if(!rawVal) {
                 resultBox.style.display = 'block';
                 resultBox.className = 'result-box result-error';
                 resultBox.innerHTML = t.emptyError;
                 return;
+            }
+
+            // Егер тек бір сөз жазса (мысалы "иванова"), оны ресми түрде толықтай көрсетеміз немесе бас әріпке келтіреміз
+            let displayName = formatName(rawVal);
+            if(displayName.toLowerCase() === 'иванова') {
+                displayName = currentLang === 'kk' ? 'Иванова Динара Серикқызы' : 'Иванова Динара Сериковна';
+            } else if(displayName.toLowerCase() === 'динара') {
+                displayName = currentLang === 'kk' ? 'Иванова Динара Серикқызы' : 'Иванова Динара Сериковна';
             }
             
             resultBox.style.display = 'block';
@@ -422,7 +434,7 @@
             
             resultBox.innerHTML = `
                 <div class="doc-details-title">✓ ${t.docTitle}</div>
-                <div class="doc-row"><span class="doc-label">${t.lblOwner}</span><span class="doc-value">${val}</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblOwner}</span><span class="doc-value">${displayName}</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblCode}</span><span class="doc-value">BQ-2026-8941</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblType}</span><span class="doc-value">${t.docTypeVal}</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblOrg}</span><span class="doc-value">«BILIM QAZYNA» КММ</span></div>
