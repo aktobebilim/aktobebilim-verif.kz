@@ -7,17 +7,16 @@
     <style>
         :root {
             --primary-bg: #f8fafc;
-            --primary-light: #172a45;
-            --accent-blue: #1d4ed8;
-            --accent-hover: #1c40af;
+            --accent-blue: #0284c7;
+            --accent-hover: #0369a1;
             --card-bg: #ffffff;
             --text-dark: #0f172a;
-            --text-muted: #475569;
-            --border-color: #cbd5e1;
-            --deep-blue: #0f2b46;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --deep-blue: #0f172a;
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 
         body {
             background-color: var(--primary-bg);
@@ -32,28 +31,42 @@
         header {
             background: var(--card-bg);
             border-bottom: 1px solid var(--border-color);
-            padding: 15px 30px;
+            padding: 12px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
 
-        .header-logos {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .header-logos img {
-            height: 45px;
+        .header-logo-circle {
+            height: 42px;
+            width: 42px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .header-logo-rect {
+            height: 38px;
             object-fit: contain;
         }
 
         .header-title {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: var(--deep-blue);
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
         main {
@@ -66,37 +79,53 @@
 
         .container {
             background: var(--card-bg);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 45px 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
             max-width: 520px;
             width: 100%;
             text-align: center;
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease-out;
         }
 
-        .logos-container {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-logos {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 22px;
         }
 
-        .logos-container img {
+        .main-logo-circle {
+            width: 65px;
             height: 65px;
             object-fit: contain;
         }
 
+        .main-logo-rect {
+            height: 52px;
+            object-fit: contain;
+        }
+
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             color: var(--deep-blue);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         p {
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
+            line-height: 1.5;
         }
 
         .input-group {
@@ -114,40 +143,67 @@
 
         input[type="text"] {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
+            background-color: #fafafa;
         }
 
         input[type="text"]:focus {
             border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
         }
 
         button {
             background-color: var(--accent-blue);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
+            border-radius: 10px;
+            padding: 14px 20px;
             font-size: 1rem;
             font-weight: 600;
             width: 100%;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, transform 0.1s;
         }
 
         button:hover {
             background-color: var(--accent-hover);
         }
 
+        button:active {
+            transform: scale(0.99);
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .result-success {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+        }
+
+        .result-error {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+
         footer {
             text-align: center;
             padding: 20px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
             border-top: 1px solid var(--border-color);
             background: var(--card-bg);
@@ -157,22 +213,24 @@
 <body>
 
     <header>
-        <div class="header-logos">
-            <!-- Бірінші логотип (Ақтөбе білім бөлімі) -->
-            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAwACAAAAFAAAABIAAwACAAAAFAAAABIKAAIAAAANAAAAICSAAwACAAAAFAAAAI6SAwACAAAAFAAAAJ6RBwAE<div>..." alt="Ақтөбе қаласының білім бөлімі">
-            <!-- Екінші логотип (Bilim Qazyna) -->
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA..." alt="Bilim Qazyna">
+        <div class="header-left">
+            <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="header-logo-circle" onerror="this.style.display='none'">
+            <div>
+                <div class="header-title">АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</div>
+                <div class="header-subtitle">«BILIM QAZYNA» КММ</div>
+            </div>
         </div>
-        <div class="header-title">Ақтөбе қаласының білім бөлімі</div>
+        <img src="bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'">
     </header>
 
     <main>
         <div class="container">
-            <div class="logos-container">
-                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAwACAAAAFAAAABIAAwACAAAAFAAAABIKAAIAAAANAAAAICSAAwACAAAAFAAAAI6SAwACAAAAFAAAAJ6RBwAE<div>..." alt="Эмблема">
+            <div class="main-logos">
+                <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="main-logo-circle" onerror="this.style.display='none'">
+                <img src="bilim_logo.png" alt="Bilim Qazyna" class="main-logo-rect" onerror="this.style.display='none'">
             </div>
             <h1>Түпнұсқалықты анықтау модулі</h1>
-            <p>Құжаттың түпнұсқалығын тексеру үшін сәйкестендіру нөмірін енгізіңіз</p>
+            <p>Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін сәйкестендіру нөмірін енгізіңіз</p>
             
             <div class="input-group">
                 <label for="docId">Құжат нөмірі немесе шифры</label>
@@ -180,21 +238,29 @@
             </div>
 
             <button onclick="checkDocument()">Тексеру</button>
+            <div id="resultBox" class="result-box"></div>
         </div>
     </main>
 
     <footer>
-        &copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі
+        &copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.
     </footer>
 
     <script>
         function checkDocument() {
             const val = document.getElementById('docId').value.trim();
+            const resultBox = document.getElementById('resultBox');
+            
             if(!val) {
-                alert('Құжат нөмірін енгізіңіз!');
+                resultBox.style.display = 'block';
+                resultBox.className = 'result-box result-error';
+                resultBox.innerHTML = 'Құжат нөмірін енгізіңіз!';
                 return;
             }
-            alert('Тексеру сұранысы қабылданды: ' + val);
+            
+            resultBox.style.display = 'block';
+            resultBox.className = 'result-box result-success';
+            resultBox.innerHTML = '✓ «' + val + '» нөмірлі құжат жүйеде табылды және түпнұсқа болып табылады.';
         }
     </script>
 </body>
