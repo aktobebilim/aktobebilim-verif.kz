@@ -416,12 +416,12 @@
                 notFoundError: "Деректер қорынан бұл мәлімет бойынша құжаттар табылмады.",
                 loadingText: "Ізделіп жатыр...",
                 statusValid: "Құжат түпнұсқалығы расталды",
-                lblCode: "Тіркеу нөмірі:",
-                lblDate: "Берілген күні:",
                 lblOwner: "Иесінің аты-жөні:",
+                lblCode: "Тіркеу нөмірі:",
                 lblEvent: "Шара атауы:",
                 lblEventType: "Құжат түрі:",
-                lblDocType: "Статус:"
+                lblDate: "Берілген күні:",
+                lblStatus: "Мәртебесі:"
             },
             ru: {
                 title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
@@ -436,12 +436,12 @@
                 notFoundError: "Документ с такими данными не найден в базе.",
                 loadingText: "Поиск...",
                 statusValid: "Подлинность документа подтверждена",
-                lblCode: "Регистрационный код:",
-                lblDate: "Дата выдачи:",
                 lblOwner: "ФИО владельца:",
-                lblEvent: "Тип документа:",
-                lblEventType: "Выдавший орган:",
-                lblDocType: "Статус:"
+                lblCode: "Регистрационный код:",
+                lblEvent: "Название мероприятия:",
+                lblEventType: "Тип документа:",
+                lblDate: "Дата выдачи:",
+                lblStatus: "Статус:"
             }
         };
 
@@ -505,7 +505,6 @@
                     if (!row) continue;
                     
                     const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    // Google Таблицадағы бағандардың дұрыс ретімен оқылуы
                     const owner = cols[0] ? cols[0].replace(/"/g, '').trim() : "";
                     const code = cols[1] ? cols[1].replace(/"/g, '').trim() : "";
 
@@ -514,8 +513,7 @@
                             owner: owner,
                             code: code,
                             eventTitle: cols[2] ? cols[2].replace(/"/g, '').trim() : "Тәрбие орынбасарының функционалдық қызметтері",
-                            eventType: cols[3] ? cols[3].replace(/"/g, '').trim() : "Семинар",
-                            docType: cols[4] ? cols[4].replace(/"/g, '').trim() : "Сертификат",
+                            eventType: cols[3] ? cols[3].replace(/"/g, '').trim() : "Сертификат",
                             date: cols[5] ? cols[5].replace(/"/g, '').trim() : "17.09.2026",
                             status: cols[6] ? cols[6].replace(/"/g, '').trim() : "Белсенді (Оригинал)"
                         });
@@ -551,7 +549,7 @@
                                         <span>${item.date}</span>
                                     </div>
                                     <div class="card-field card-full-width">
-                                        <label>${t.lblDocType}</label>
+                                        <label>${t.lblStatus}</label>
                                         <span style="color: #15803d;">${item.status}</span>
                                     </div>
                                 </div>
