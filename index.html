@@ -5,12 +5,12 @@ function doGet(e) {
   
   var result = { status: "not_found" };
   
-  // 1-жол тақырып деп есептейміз, 2-жолдан бастап іздейміз
   for (var i = 1; i < rows.length; i++) {
     var row = rows[i];
-    var fullName = row[0] ? row[0].toString().trim() : ""; // 1-ші баған: Аты-жөні
-    var regCode = row[1] ? row[1].toString().trim() : "";   // 2-ші баған: Тіркеу коды
+    var fullName = row[0] ? row[0].toString().trim() : ""; // Аты-жөні (1-ші баған)
+    var regCode = row[1] ? row[1].toString().trim() : "";   // Тіркеу коды (2-ші баған)
     
+    // Егер енгізген сөз кестедегі аты-жөніне немесе кодқа дәл келсе
     if (fullName.toLowerCase().includes(query) || regCode.toLowerCase().includes(query)) {
       result = {
         status: "success",
