@@ -209,13 +209,42 @@
             cursor: pointer;
             transition: background-color 0.2s;
             margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         button.action-btn:hover {
             background-color: var(--accent-hover);
         }
 
-        /* Нәтижелер тізіміне арналған контейнер */
+        /* Анимациялық иконка (Пульс эффектісі) */
+        .animated-icon {
+            width: 14px;
+            height: 14px;
+            background-color: #38bdf8;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 rgba(56, 189, 248, 0.4);
+            animation: pulseEffect 1.5s infinite;
+        }
+
+        @keyframes pulseEffect {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 8px rgba(56, 189, 248, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+            }
+        }
+
         #resultContainer {
             width: 100%;
             max-width: 600px;
@@ -228,6 +257,9 @@
             color: var(--text-muted);
             margin-bottom: 12px;
             text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .doc-card {
@@ -356,10 +388,12 @@
                 </div>
             </div>
 
-            <button class="action-btn" id="checkBtn" onclick="checkDocument()">Тексеру</button>
+            <button class="action-btn" id="checkBtn" onclick="checkDocument()">
+                <span class="animated-icon"></span>
+                <span id="btnText">Тексеру</span>
+            </button>
         </div>
 
-        <!-- Карточкалар шығатын жер -->
         <div id="resultContainer"></div>
     </main>
 
@@ -376,18 +410,18 @@
                 mainDesc: "Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз",
                 inputLabel: "Құжат коды немесе аты-жөніңізді енгізіңіз",
                 tickerText: "Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы",
-                checkBtn: "Тексеру",
+                btnText: "Тексеру",
                 footer: "&copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.",
                 emptyError: "Құжат кодын немесе аты-жөнді енгізіңіз!",
                 notFoundError: "Деректер қорынан бұл мәлімет бойынша құжаттар табылмады.",
                 loadingText: "Ізделіп жатыр...",
-                statusValid: "Құжат жарамды",
-                lblCode: "Құжат коды",
-                lblDate: "Берілген күні",
-                lblOwner: "Аты-жөні",
-                lblEvent: "Шара атауы",
-                lblEventType: "Шараның түрі",
-                lblDocType: "Құжат түрі"
+                statusValid: "Құжат түпнұсқалығы расталды",
+                lblCode: "Тіркеу нөмірі:",
+                lblDate: "Берілген күні:",
+                lblOwner: "Иесінің аты-жөні:",
+                lblEvent: "Шара атауы:",
+                lblEventType: "Құжат түрі:",
+                lblDocType: "Статус:"
             },
             ru: {
                 title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
@@ -396,18 +430,18 @@
                 mainDesc: "Введите данные для проверки подлинности документа или сертификата",
                 inputLabel: "Введите код документа или ФИО",
                 tickerText: "Например: BQ-D-2026-478 или Азаматов Айдын Жарасұлы",
-                checkBtn: "Проверить",
+                btnText: "Проверить",
                 footer: "&copy; 2026 КГУ «BILIM QAZYNA». Все права защищены.",
                 emptyError: "Введите код документа или ФИО!",
                 notFoundError: "Документ с такими данными не найден в базе.",
                 loadingText: "Поиск...",
-                statusValid: "Документ действителен",
-                lblCode: "Код документа",
-                lblDate: "Дата выдачи",
-                lblOwner: "ФИО",
-                lblEvent: "Название мероприятия",
-                lblEventType: "Тип мероприятия",
-                lblDocType: "Тип документа"
+                statusValid: "Подлинность документа подтверждена",
+                lblCode: "Регистрационный код:",
+                lblDate: "Дата выдачи:",
+                lblOwner: "ФИО владельца:",
+                lblEvent: "Тип документа:",
+                lblEventType: "Выдавший орган:",
+                lblDocType: "Статус:"
             }
         };
 
@@ -423,7 +457,7 @@
             document.getElementById('mainDesc').innerText = translations[lang].mainDesc;
             document.getElementById('inputLabel').innerText = translations[lang].inputLabel;
             document.getElementById('tickerText').innerText = translations[lang].tickerText;
-            document.getElementById('checkBtn').innerText = translations[lang].checkBtn;
+            document.getElementById('btnText').innerText = translations[lang].btnText;
             document.getElementById('footerText').innerHTML = translations[lang].footer;
             document.title = translations[lang].title;
 
@@ -466,12 +500,12 @@
                 const rows = data.split('\n');
                 let foundList = [];
 
-                // Барлық жолдарды тексеріп, сәйкес келгендердің бәрін жинаймыз
                 for (let i = 1; i < rows.length; i++) {
                     const row = rows[i].trim();
                     if (!row) continue;
                     
                     const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    // Google Таблицадағы бағандардың дұрыс ретімен оқылуы
                     const owner = cols[0] ? cols[0].replace(/"/g, '').trim() : "";
                     const code = cols[1] ? cols[1].replace(/"/g, '').trim() : "";
 
@@ -479,33 +513,30 @@
                         foundList.push({
                             owner: owner,
                             code: code,
-                            eventTitle: cols[2] ? cols[2].replace(/"/g, '').trim() : "Жалпы білім беру іс-шарасы",
+                            eventTitle: cols[2] ? cols[2].replace(/"/g, '').trim() : "Тәрбие орынбасарының функционалдық қызметтері",
                             eventType: cols[3] ? cols[3].replace(/"/g, '').trim() : "Семинар",
-                            docType: cols[4] ? cols[4].replace(/"/g, '').trim() : "Сертификат (Белсенді)",
-                            date: cols[5] ? cols[5].replace(/"/g, '').trim() : "17.09.2026"
+                            docType: cols[4] ? cols[4].replace(/"/g, '').trim() : "Сертификат",
+                            date: cols[5] ? cols[5].replace(/"/g, '').trim() : "17.09.2026",
+                            status: cols[6] ? cols[6].replace(/"/g, '').trim() : "Белсенді (Оригинал)"
                         });
                     }
                 }
 
                 if (foundList.length > 0) {
-                    let html = `<div class="results-header">Табылған нәтиже: ${foundList.length}</div>`;
+                    let html = `<div class="results-header"><span class="animated-icon"></span> ${currentLang === 'kk' ? 'Табылған нәтиже:' : 'Найденные результаты:'} ${foundList.length}</div>`;
                     
                     foundList.forEach(item => {
                         html += `
                             <div class="doc-card">
-                                <div class="card-status">✓ ${t.statusValid}</div>
+                                <div class="card-status"><span class="animated-icon" style="background-color: #22c55e;"></span> ✓ ${t.statusValid}</div>
                                 <div class="card-grid">
                                     <div class="card-field">
-                                        <label>${t.lblCode}</label>
-                                        <span>${item.code}</span>
-                                    </div>
-                                    <div class="card-field" style="text-align: right;">
-                                        <label>${t.lblDate}</label>
-                                        <span>${item.date}</span>
-                                    </div>
-                                    <div class="card-field card-full-width">
                                         <label>${t.lblOwner}</label>
                                         <span>${item.owner}</span>
+                                    </div>
+                                    <div class="card-field" style="text-align: right;">
+                                        <label>${t.lblCode}</label>
+                                        <span>${item.code}</span>
                                     </div>
                                     <div class="card-field card-full-width">
                                         <label>${t.lblEvent}</label>
@@ -516,8 +547,12 @@
                                         <span>${item.eventType}</span>
                                     </div>
                                     <div class="card-field" style="text-align: right;">
+                                        <label>${t.lblDate}</label>
+                                        <span>${item.date}</span>
+                                    </div>
+                                    <div class="card-field card-full-width">
                                         <label>${t.lblDocType}</label>
-                                        <span>${item.docType}</span>
+                                        <span style="color: #15803d;">${item.status}</span>
                                     </div>
                                 </div>
                             </div>
@@ -529,7 +564,7 @@
                     resultContainer.innerHTML = `<div class="result-error">${t.notFoundError}</div>`;
                 }
             } catch (error) {
-                resultContainer.innerHTML = `<div class="result-error">Қате орын алды. Интернет байланысын немесе кесте сілтемесін тексеріңіз.</div>`;
+                resultContainer.innerHTML = `<div class="result-error">${currentLang === 'kk' ? 'Қате орын алды. Интернет байланысын немесе кесте сілтемесін тексеріңіз.' : 'Произошла ошибка. Проверьте интернет-соединение или ссылку на таблицу.'}</div>`;
             } finally {
                 checkBtn.disabled = false;
             }
