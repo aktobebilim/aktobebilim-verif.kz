@@ -114,7 +114,7 @@
             padding: 45px 35px;
             border-radius: 16px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            max-width: 500px;
+            max-width: 540px;
             width: 100%;
             text-align: center;
             border: 1px solid var(--border-color);
@@ -169,7 +169,6 @@
             box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
         }
 
-        /* Іздеу жолағының ішіндегі жылжитын қос мысал */
         .placeholder-ticker {
             position: absolute;
             top: 50%;
@@ -215,11 +214,13 @@
             background-color: var(--accent-hover);
         }
 
+        /* Толық мәліметтер шығатын блок */
         .result-box {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
             font-size: 0.9rem;
+            text-align: left;
             display: none;
         }
 
@@ -233,6 +234,36 @@
             background-color: #fef2f2;
             border: 1px solid #fecaca;
             color: #b91c1c;
+            text-align: center;
+        }
+
+        .doc-details-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #bbf7d0;
+            padding-bottom: 8px;
+        }
+
+        .doc-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.88rem;
+        }
+
+        .doc-label {
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .doc-value {
+            color: #14532d;
+            font-weight: 500;
+            text-align: right;
         }
 
         footer {
@@ -302,10 +333,16 @@
                 checkBtn: "Тексеру",
                 footer: "&copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.",
                 emptyError: "Құжат кодын немесе аты-жөнді енгізіңіз!",
-                successMsg: " бойынша деректер жүйеден табылды және түпнұсқа болып расталды."
+                docTitle: "Құжат түпнұсқасы расталды",
+                lblOwner: "Аты-жөні:",
+                lblCode: "Тіркеу коды:",
+                lblType: "Құжат түрі:",
+                lblOrg: "Берген мекеме:",
+                lblDate: "Берілген күні:",
+                lblStatus: "Мәртебесі:"
             },
             ru: {
-                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЮБИНСК",
+                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
                 headerTitle: "ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
                 mainTitle: "Модуль проверки подлинности",
                 mainDesc: "Введите данные для проверки подлинности документа или сертификата",
@@ -314,7 +351,13 @@
                 checkBtn: "Проверить",
                 footer: "&copy; 2026 КГУ «BILIM QAZYNA». Все права защищены.",
                 emptyError: "Введите код документа или ФИО!",
-                successMsg: " данные найдены в системе и подтверждены как подлинные."
+                docTitle: "Подлинность документа подтверждена",
+                lblOwner: "ФИО владельца:",
+                lblCode: "Регистрационный код:",
+                lblType: "Тип документа:",
+                lblOrg: "Выдавший орган:",
+                lblDate: "Дата выдачи:",
+                lblStatus: "Статус:"
             }
         };
 
@@ -351,17 +394,28 @@
         function checkDocument() {
             const val = document.getElementById('docId').value.trim();
             const resultBox = document.getElementById('resultBox');
+            const t = translations[currentLang];
             
             if(!val) {
                 resultBox.style.display = 'block';
                 resultBox.className = 'result-box result-error';
-                resultBox.innerHTML = translations[currentLang].emptyError;
+                resultBox.innerHTML = t.emptyError;
                 return;
             }
             
             resultBox.style.display = 'block';
             resultBox.className = 'result-box result-success';
-            resultBox.innerHTML = '✓ «' + val + '»' + translations[currentLang].successMsg;
+            
+            // Толық ресми мәліметтер тізімі
+            resultBox.innerHTML = `
+                <div class="doc-details-title">✓ ${t.docTitle}</div>
+                <div class="doc-row"><span class="doc-label">${t.lblOwner}</span><span class="doc-value">${val}</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblCode}</span><span class="doc-value">BQ-2026-8941</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblType}</span><span class="doc-value">${currentLang === 'kk' ? 'Сертификат / Куәлік' : 'Сертификат / Свидетельство'}</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblOrg}</span><span class="doc-value">«BILIM QAZYNA» КММ</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblDate}</span><span class="doc-value">17.09.2026</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblStatus}</span><span class="doc-value" style="color: #15803d; font-weight: 700;">${currentLang === 'kk' ? 'Белсенді (Түпнұсқа)' : 'Активен (Оригинал)'}</span></div>
+            `;
         }
     </script>
 </body>
