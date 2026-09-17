@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</title>
+    <title>ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | «АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ</title>
     <style>
         :root {
-            --primary-bg: #0b192c;
-            --primary-light: #1e3e62;
-            --accent-blue: #0f172a;
-            --accent-hover: #1e293b;
+            --primary-bg: #0a192f;
+            --primary-light: #172a45;
+            --accent-blue: #1d4ed8;
+            --accent-hover: #1e40af;
             --card-bg: #ffffff;
             --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --text-muted: #475569;
+            --border-color: #cbd5e1;
+            --deep-blue: #0f2b46;
         }
 
         * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
 
         body { 
-            background-color: #f8fafc; 
+            background-color: #f1f5f9; 
             color: var(--text-dark); 
             margin: 0; 
             padding: 0; 
@@ -53,7 +54,7 @@
         /* Жоғарғы панель (Шапка) */
         header {
             background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid #e2e8f0;
             padding: 12px 20px;
             display: flex;
             justify-content: space-between;
@@ -71,7 +72,7 @@
         .logo-circle {
             width: 38px;
             height: 38px;
-            background: #e0f2fe;
+            background: #dbeafe;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -84,7 +85,7 @@
         .brand-text h2 {
             font-size: 11px;
             font-weight: 800;
-            color: var(--text-dark);
+            color: var(--deep-blue);
             margin: 0 0 2px 0;
             line-height: 1.2;
         }
@@ -93,7 +94,7 @@
             font-size: 9px;
             color: var(--text-muted);
             margin: 0;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .header-controls {
@@ -112,11 +113,11 @@
             background: #ffffff;
             cursor: pointer;
             font-size: 12px;
-            font-weight: 600;
-            color: var(--text-dark);
+            font-weight: 700;
+            color: var(--deep-blue);
             transition: 0.2s;
         }
-        .lang-select:hover { border-color: var(--text-muted); }
+        .lang-select:hover { border-color: var(--accent-blue); background: #f8fafc; }
 
         /* Орталық контент */
         main {
@@ -144,13 +145,13 @@
         .icon-box {
             width: 44px;
             height: 44px;
-            background: #f1f5f9;
+            background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 6px rgba(15,43,70,0.05);
         }
 
         .floating-elem { animation: floatUpDown 3s ease-in-out infinite; }
@@ -167,7 +168,7 @@
         }
         @keyframes pulseGlow {
             0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 6px rgba(15,23,42,0.2)); }
+            50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 8px rgba(29,78,216,0.3)); }
         }
 
         .center-logo-box {
@@ -183,7 +184,7 @@
         .main-title-group h2 {
             font-size: 13px;
             font-weight: 800;
-            color: var(--text-dark);
+            color: var(--deep-blue);
             margin: 0 0 3px 0;
             line-height: 1.3;
         }
@@ -192,27 +193,27 @@
             font-size: 11px;
             color: var(--text-muted);
             margin: 0 0 14px 0;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .registry-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            color: #0284c7;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: var(--accent-blue);
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 20px;
         }
 
         .section-heading {
             font-size: 24px;
             font-weight: 800;
-            color: var(--text-dark);
+            color: var(--deep-blue);
             margin: 0 0 10px 0;
             letter-spacing: -0.5px;
             line-height: 1.2;
@@ -224,6 +225,7 @@
             margin: 0 auto 24px auto;
             max-width: 480px;
             line-height: 1.4;
+            font-weight: 500;
         }
 
         /* Іздеу карточкасы */
@@ -232,7 +234,7 @@
             border: 1px solid var(--border-color);
             padding: 22px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 25px -5px rgba(15, 43, 70, 0.08);
             width: 100%;
             text-align: left;
         }
@@ -259,15 +261,16 @@
             padding: 14px 14px 14px 44px;
             border-radius: 12px;
             font-size: 14px;
-            color: var(--text-dark);
+            color: var(--deep-blue);
+            font-weight: 500;
             outline: none;
             transition: 0.2s;
         }
 
         input[type="text"]:focus {
-            border-color: #0284c7;
+            border-color: var(--accent-blue);
             background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
         }
 
         input[type="text"]::placeholder {
@@ -276,23 +279,24 @@
 
         button.search-btn {
             width: 100%;
-            background: var(--accent-blue);
+            background: var(--deep-blue);
             color: white;
             border: none;
             padding: 14px;
             border-radius: 12px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 4px 12px rgba(15, 43, 70, 0.2);
         }
 
         button.search-btn svg { width: 16px; height: 16px; }
-        button.search-btn:hover { background: var(--accent-hover); }
+        button.search-btn:hover { background: var(--accent-blue); }
 
         /* Нәтижелер */
         #results { width: 100%; margin-top: 20px; }
@@ -303,7 +307,7 @@
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 14px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 10px rgba(15, 43, 70, 0.04);
             text-align: left;
             animation: fadeIn 0.3s ease-out;
         }
@@ -319,12 +323,12 @@
             gap: 5px;
             background: #f0fdf4;
             color: #16a34a;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 11px;
             padding: 4px 10px;
             border-radius: 20px;
             margin-bottom: 12px;
-            border: 1px solid #dcfce7;
+            border: 1px solid #bbf7d0;
         }
 
         .info-grid {
@@ -339,15 +343,15 @@
         .info-label {
             font-size: 10px;
             color: var(--text-muted);
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
         .info-value {
             font-size: 14px;
-            color: var(--text-dark);
-            font-weight: 600;
+            color: var(--deep-blue);
+            font-weight: 700;
             margin-top: 2px;
         }
 
@@ -359,11 +363,13 @@
             border-radius: 10px;
             text-align: center;
             font-size: 13px;
+            font-weight: 600;
         }
 
         .loading {
-            color: var(--text-muted);
+            color: var(--accent-blue);
             font-size: 13px;
+            font-weight: 600;
             text-align: center;
             margin-top: 10px;
         }
@@ -372,18 +378,19 @@
             font-size: 12px;
             color: var(--text-muted);
             margin-bottom: 10px;
-            font-weight: 500;
+            font-weight: 600;
             text-align: left;
         }
 
-        /* Футер */
+        /* Футер (Қою көк түсте) */
         footer {
-            background: var(--primary-bg);
-            color: #94a3b8;
+            background: var(--deep-blue);
+            color: #cbd5e1;
             text-align: center;
             padding: 20px;
             font-size: 11px;
-            border-top: 1px solid var(--border-color);
+            font-weight: 500;
+            border-top: 1px solid #1e3a5f;
             z-index: 10;
             position: relative;
         }
@@ -407,10 +414,10 @@
     <header>
         <div class="brand-container">
             <div class="logo-circle">
-                <svg viewBox="0 0 24 24" fill="#0284c7"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+                <svg viewBox="0 0 24 24" fill="#1d4ed8"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
             </div>
             <div class="brand-text">
-                <h2 id="hdr-title">АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ ММ</h2>
+                <h2 id="hdr-title">«АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ</h2>
                 <p id="hdr-sub">Білім бөлімі • "BILIM QAZYNA" КММ</p>
             </div>
         </div>
@@ -427,10 +434,10 @@
         <!-- Анимациялық иконкалар тобы -->
         <div class="animated-icons-container">
             <div class="icon-box floating-elem" title="Білім">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             </div>
             <div class="icon-box rotating-elem" title="Инновация">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f2b46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             </div>
             <div class="icon-box pulsing-elem" title="Жетістік">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
@@ -439,10 +446,10 @@
 
         <div class="center-logo-box">
             <div class="logo-circle">
-                <svg viewBox="0 0 24 24" fill="#0284c7"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+                <svg viewBox="0 0 24 24" fill="#1d4ed8"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
             </div>
             <div class="main-title-group" style="margin-top: 6px;">
-                <h2 id="cntr-title">АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ ММ</h2>
+                <h2 id="cntr-title">«АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ</h2>
                 <p id="cntr-sub">Білім бөлімі • "BILIM QAZYNA" КММ</p>
             </div>
         </div>
@@ -455,7 +462,7 @@
         <h1 class="section-heading" id="mainHeading">ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ</h1>
         <p class="section-desc" id="mainDesc">Педагогтер мен қатысушыларға табысталған сертификаттар мен марапаттардың деректер базасындағы заңдылығын растау</p>
 
-        <!-- Іздеу карточкасы (Аты-жөні немесе код арқылы) -->
+        <!-- Іздеу карточкасы -->
         <div class="search-card">
             <div class="input-wrapper">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -474,7 +481,7 @@
 
     <!-- Футер -->
     <footer>
-        <span id="footerText">© 2026 АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ ММ. БАРЛЫҚ ҚҰҚЫҚТАР ҚОРҒАЛҒАН.</span>
+        <span id="footerText">© 2026 «АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ. БАРЛЫҚ ҚҰҚЫҚТАР ҚОРҒАЛҒАН.</span>
     </footer>
 
     <script>
@@ -484,14 +491,14 @@
 
         const translations = {
             kk: {
-                hdrTitle: "АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ ММ",
+                hdrTitle: "«АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ",
                 hdrSub: 'Білім бөлімі • "BILIM QAZYNA" КММ',
                 registry: "Ресми тіркеу базасы",
                 heading: "ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ",
                 desc: "Педагогтер мен қатысушыларға табысталған сертификаттар мен марапаттардың деректер базасындағы заңдылығын растау",
                 placeholder: "Код немесе аты-жөні (мысалы: 2026-000001 немесе Айдын)",
                 btnText: "Тексеру",
-                footer: "© 2026 АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ ММ. БАРЛЫҚ ҚҰҚЫҚТАР ҚОРҒАЛҒАН.",
+                footer: "© 2026 «АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ. БАРЛЫҚ ҚҰҚЫҚТАР ҚОРҒАЛҒАН.",
                 validDoc: "✓ Құжат жарамды",
                 docCode: "Құжат коды",
                 issueDate: "Берілген күні",
@@ -505,14 +512,14 @@
                 errorNet: "Қате орын алды. Желіні тексеріңіз."
             },
             ru: {
-                hdrTitle: "ГУ «ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЮБЕ»",
+                hdrTitle: "УПРАВЛЕНИЕ «ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТОБЕ» ГУ", // немесе ресми орысша атауы
                 hdrSub: 'Отдел образования • КГУ "BILIM QAZYNA"',
                 registry: "Официальная база регистрации",
                 heading: "МОДУЛЬ ОПРЕДЕЛЕНИЯ ПОДЛИННОСТИ",
                 desc: "Подтверждение подлинности сертификатов и наград, выданных педагогам и участникам, в базе данных",
                 placeholder: "Код или ФИО (например: 2026-000001 или Айдын)",
                 btnText: "Проверить",
-                footer: "© 2026 ГУ «ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЮБЕ». ВСЕ ПРАВА ЗАЩИЩЕНЫ.",
+                footer: "© 2026 «АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ» ММ. ВСЕ ПРАВА ЗАЩИЩЕНЫ.",
                 validDoc: "✓ Документ действителен",
                 docCode: "Код документа",
                 issueDate: "Дата выдачи",
