@@ -214,7 +214,6 @@
             background-color: var(--accent-hover);
         }
 
-        /* Толық мәліметтер шығатын блок */
         .result-box {
             margin-top: 25px;
             padding: 20px;
@@ -356,7 +355,7 @@
                 lblCode: "Регистрационный код:",
                 lblType: "Тип документа:",
                 lblOrg: "Выдавший орган:",
-                lblDate: "Дата выдачи:",
+                lblДата: "Дата выдачи:",
                 lblStatus: "Статус:"
             }
         };
@@ -406,14 +405,14 @@
             resultBox.style.display = 'block';
             resultBox.className = 'result-box result-success';
             
-            // Толық ресми мәліметтер тізімі
+            // Толық ресми мәліметтер кестесі
             resultBox.innerHTML = `
                 <div class="doc-details-title">✓ ${t.docTitle}</div>
                 <div class="doc-row"><span class="doc-label">${t.lblOwner}</span><span class="doc-value">${val}</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblCode}</span><span class="doc-value">BQ-2026-8941</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblType}</span><span class="doc-value">${currentLang === 'kk' ? 'Сертификат / Куәлік' : 'Сертификат / Свидетельство'}</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblOrg}</span><span class="doc-value">«BILIM QAZYNA» КММ</span></div>
-                <div class="doc-row"><span class="doc-label">${t.lblDate}</span><span class="doc-value">17.09.2026</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblDate || 'Берілген күні:'}</span><span class="doc-value">17.09.2026</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblStatus}</span><span class="doc-value" style="color: #15803d; font-weight: 700;">${currentLang === 'kk' ? 'Белсенді (Түпнұсқа)' : 'Активен (Оригинал)'}</span></div>
             `;
         }
