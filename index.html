@@ -1,29 +1,460 @@
-function doGet(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var rows = sheet.getDataRange().getValues();
-  var query = e.parameter.q ? e.parameter.q.toString().trim().toLowerCase() : "";
-  
-  var result = { status: "not_found" };
-  
-  for (var i = 1; i < rows.length; i++) {
-    var row = rows[i];
-    var fullName = row[0] ? row[0].toString().trim() : ""; // Аты-жөні (1-ші баған)
-    var regCode = row[1] ? row[1].toString().trim() : "";   // Тіркеу коды (2-ші баған)
-    
-    // Егер енгізген сөз кестедегі аты-жөніне немесе кодқа дәл келсе
-    if (fullName.toLowerCase().includes(query) || regCode.toLowerCase().includes(query)) {
-      result = {
-        status: "success",
-        owner: fullName,
-        code: regCode,
-        docType: row[2] ? row[2].toString() : "Сертификат / Куәлік",
-        org: row[3] ? row[3].toString() : "«BILIM QAZYNA» КММ",
-        date: row[4] ? row[4].toString() : "17.09.2026"
-      };
-      break;
-    }
-  }
-  
-  return ContentService.createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</title>
+    <style>
+        :root {
+            --primary-bg: #f8fafc;
+            --accent-blue: #0284c7;
+            --accent-hover: #0369a1;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --deep-blue: #0f172a;
+        }
+
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo-circle {
+            height: 42px;
+            width: 42px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .header-right-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-logo-rect {
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .header-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .lang-switcher {
+            display: flex;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 3px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: #ffffff;
+            color: var(--accent-blue);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            color: var(--deep-blue);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            background-color: #fafafa;
+            color: var(--text-dark);
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-blue);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
+        }
+
+        .placeholder-ticker {
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            width: calc(100% - 32px);
+            overflow: hidden;
+            pointer-events: none;
+            white-space: nowrap;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .ticker-inner {
+            display: inline-block;
+            animation: tickerMove 16s linear infinite;
+        }
+
+        @keyframes tickerMove {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        input[type="text"]:not(:placeholder-shown) + .placeholder-ticker {
+            display: none;
+        }
+
+        button.action-btn {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 5px;
+        }
+
+        button.action-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            text-align: left;
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-success {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+        }
+
+        .result-error {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            text-align: center;
+        }
+
+        .doc-details-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #bbf7d0;
+            padding-bottom: 8px;
+        }
+
+        .doc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .doc-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .doc-label {
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .doc-value {
+            color: #14532d;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="header-logo-circle" onerror="this.style.display='none'">
+            <div>
+                <div class="header-title" id="headerTitle">АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</div>
+                <div class="header-subtitle">«BILIM QAZYNA» КММ</div>
+            </div>
+        </div>
+        
+        <div class="header-right-area">
+            <div class="lang-switcher">
+                <button class="lang-btn active" id="btnKK" onclick="setLanguage('kk')">KZ</button>
+                <button class="lang-btn" id="btnRU" onclick="setLanguage('ru')">RU</button>
+            </div>
+            <img src="bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'">
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 id="mainTitle">Түпнұсқалықты анықтау модулі</h1>
+            <p id="mainDesc">Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз</p>
+            
+            <div class="input-group">
+                <label id="inputLabel" for="docId">Құжат коды немесе аты-жөніңізді енгізіңіз</label>
+                
+                <div class="input-wrapper">
+                    <input type="text" id="docId" placeholder="" oninput="handleInput(this)">
+                    <div class="placeholder-ticker" id="tickerPlaceholder">
+                        <div class="ticker-inner" id="tickerText">Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="action-btn" id="checkBtn" onclick="checkDocument()">Тексеру</button>
+            <div id="resultBox" class="result-box"></div>
+        </div>
+    </main>
+
+    <footer id="footerText">
+        &copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.
+    </footer>
+
+    <script>
+        const translations = {
+            kk: {
+                title: "ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ",
+                headerTitle: "АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ",
+                mainTitle: "Түпнұсқалықты анықтау модулі",
+                mainDesc: "Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз",
+                inputLabel: "Құжат коды немесе аты-жөніңізді енгізіңіз",
+                tickerText: "Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы",
+                checkBtn: "Тексеру",
+                footer: "&copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.",
+                emptyError: "Құжат кодын немесе аты-жөнді енгізіңіз!",
+                notFoundError: "Деректер қорынан бұл мәлімет бойынша құжат табылмады.",
+                loadingText: "Ізделіп жатыр...",
+                docTitle: "Құжат түпнұсқасы расталды",
+                lblOwner: "Аты-жөні:",
+                lblCode: "Тіркеу коды:",
+                lblType: "Құжат түрі:",
+                lblOrg: "Берген мекеме:",
+                lblDate: "Берілген күні:",
+                lblStatus: "Мәртебесі:",
+                statusActive: "Белсенді (Түпнұсқа)"
+            },
+            ru: {
+                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
+                headerTitle: "ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
+                mainTitle: "Модуль проверки подлинности",
+                mainDesc: "Введите данные для проверки подлинности документа или сертификата",
+                inputLabel: "Введите код документа или ФИО",
+                tickerText: "Например: BQ-D-2026-478 или Азаматов Айдын Жарасұлы",
+                checkBtn: "Проверить",
+                footer: "&copy; 2026 КГУ «BILIM QAZYNA». Все права защищены.",
+                emptyError: "Введите код документа или ФИО!",
+                notFoundError: "Документ с такими данными не найден в базе.",
+                loadingText: "Поиск...",
+                docTitle: "Подлинность документа подтверждена",
+                lblOwner: "ФИО владельца:",
+                lblCode: "Регистрационный код:",
+                lblType: "Тип документа:",
+                lblOrg: "Выдавший орган:",
+                lblDate: "Дата выдачи:",
+                lblStatus: "Статус:",
+                statusActive: "Активен (Оригинал)"
+            }
+        };
+
+        let currentLang = 'kk';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('btnKK').className = lang === 'kk' ? 'lang-btn active' : 'lang-btn';
+            document.getElementById('btnRU').className = lang === 'ru' ? 'lang-btn active' : 'lang-btn';
+
+            document.getElementById('headerTitle').innerText = translations[lang].headerTitle;
+            document.getElementById('mainTitle').innerText = translations[lang].mainTitle;
+            document.getElementById('mainDesc').innerText = translations[lang].mainDesc;
+            document.getElementById('inputLabel').innerText = translations[lang].inputLabel;
+            document.getElementById('tickerText').innerText = translations[lang].tickerText;
+            document.getElementById('checkBtn').innerText = translations[lang].checkBtn;
+            document.getElementById('footerText').innerHTML = translations[lang].footer;
+            document.title = translations[lang].title;
+
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('docId').value = '';
+            document.getElementById('tickerPlaceholder').style.display = 'block';
+        }
+
+        function handleInput(input) {
+            const ticker = document.getElementById('tickerPlaceholder');
+            if (input.value.trim() !== '') {
+                ticker.style.display = 'none';
+            } else {
+                ticker.style.display = 'block';
+            }
+        }
+
+        async function checkDocument() {
+            const rawVal = document.getElementById('docId').value.trim();
+            const resultBox = document.getElementById('resultBox');
+            const checkBtn = document.getElementById('checkBtn');
+            const t = translations[currentLang];
+            
+            if(!rawVal) {
+                resultBox.style.display = 'block';
+                resultBox.className = 'result-box result-error';
+                resultBox.innerHTML = t.emptyError;
+                return;
+            }
+
+            checkBtn.disabled = true;
+            resultBox.style.display = 'block';
+            resultBox.className = 'result-box';
+            resultBox.style.background = '#f1f5f9';
+            resultBox.style.color = '#475569';
+            resultBox.innerHTML = t.loadingText;
+
+            // Өз Google Apps Script Web App сілтемеңізді төмендегі тырнақша ішіне жазасыз:
+            const SCRIPT_URL = "СІЗДІҢ_GOOGLE_APPS_SCRIPT_URL_СІЛТЕМЕСІЗ"; 
+
+            try {
+                const response = await fetch(`${SCRIPT_URL}?q=${encodeURIComponent(rawVal)}`);
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    resultBox.className = 'result-box result-success';
+                    resultBox.innerHTML = `
+                        <div class="doc-details-title">✓ ${t.docTitle}</div>
+                        <div class="doc-row"><span class="doc-label">${t.lblOwner}</span><span class="doc-value">${data.owner}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblCode}</span><span class="doc-value">${data.code}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblType}</span><span class="doc-value">${data.docType}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblOrg}</span><span class="doc-value">${data.org}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblDate}</span><span class="doc-value">${data.date}</span></div>
+                        <div class="doc-row"><span class="doc-label">${t.lblStatus}</span><span class="doc-value" style="color: #15803d; font-weight: 700;">${t.statusActive}</span></div>
+                    `;
+                } else {
+                    resultBox.className = 'result-box result-error';
+                    resultBox.innerHTML = t.notFoundError;
+                }
+            } catch (error) {
+                resultBox.className = 'result-box result-error';
+                resultBox.innerHTML = "Қате орын алды. Интернет байланысын немесе скрипт сілтемесін тексеріңіз.";
+            } finally {
+                checkBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
