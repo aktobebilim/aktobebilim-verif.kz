@@ -69,7 +69,6 @@
             font-weight: 500;
         }
 
-        /* Тіл ауыстырғыш стильдері */
         .lang-switcher {
             display: flex;
             background: #f1f5f9;
@@ -88,8 +87,6 @@
             cursor: pointer;
             border-radius: 6px;
             transition: all 0.2s;
-            width: auto;
-            margin-top: 0;
         }
 
         .lang-btn.active {
@@ -115,12 +112,6 @@
             width: 100%;
             text-align: center;
             border: 1px solid var(--border-color);
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
@@ -128,7 +119,6 @@
             color: var(--deep-blue);
             margin-bottom: 10px;
             font-weight: 700;
-            letter-spacing: -0.02em;
         }
 
         p {
@@ -163,7 +153,6 @@
             border-radius: 10px;
             font-size: 1rem;
             outline: none;
-            transition: all 0.2s;
             background-color: #fafafa;
             color: var(--text-dark);
         }
@@ -211,16 +200,12 @@
             font-weight: 600;
             width: 100%;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.2s;
             margin-top: 5px;
         }
 
         button.action-btn:hover {
             background-color: var(--accent-hover);
-        }
-
-        button.action-btn:active {
-            transform: scale(0.99);
         }
 
         .result-box {
@@ -229,7 +214,6 @@
             border-radius: 10px;
             font-size: 0.9rem;
             display: none;
-            animation: fadeIn 0.4s ease-out;
         }
 
         .result-success {
@@ -265,11 +249,11 @@
             </div>
         </div>
         
-        <!-- Тіл ауыстырғыш батырмалары -->
         <div class="lang-switcher">
             <button class="lang-btn active" id="btnKK" onclick="setLanguage('kk')">KZ</button>
             <button class="lang-btn" id="btnRU" onclick="setLanguage('ru')">RU</button>
         </div>
+        <img src="bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'" style="display:none;">
     </header>
 
     <main>
@@ -312,7 +296,7 @@
                 successMsg: " бойынша деректер жүйеден табылды және түпнұсқа болып расталды."
             },
             ru: {
-                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЮБИНСК",
+                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
                 headerTitle: "ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
                 mainTitle: "Модуль проверки подлинности",
                 mainDesc: "Введите данные для проверки подлинности документа или сертификата",
@@ -368,11 +352,7 @@
             
             resultBox.style.display = 'block';
             resultBox.className = 'result-box result-success';
-            if (currentLang === 'kk') {
-                resultBox.innerHTML = '✓ «' + val + '»' + translations[currentLang].successMsg;
-            } else {
-                resultBox.innerHTML = '✓ «' + val + '»' + translations[currentLang].successMsg;
-            }
+            resultBox.innerHTML = '✓ «' + val + '»' + translations[currentLang].successMsg;
         }
     </script>
 </body>
