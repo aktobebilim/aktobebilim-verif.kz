@@ -219,7 +219,6 @@
             background-color: var(--accent-hover);
         }
 
-        /* Анимациялық иконка (Пульс эффектісі) */
         .animated-icon {
             width: 14px;
             height: 14px;
@@ -505,8 +504,11 @@
                     if (!row) continue;
                     
                     const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    const owner = cols[0] ? cols[0].replace(/"/g, '').trim() : "";
-                    const code = cols[1] ? cols[1].replace(/"/g, '').trim() : "";
+                    
+                    // Бұл жерде Google Sheets бағандары дұрыс ретпен көрсетілді:
+                    // cols[0] — Құжат коды (код), cols[1] — Иесінің аты-жөні (аты)
+                    const code = cols[0] ? cols[0].replace(/"/g, '').trim() : "";
+                    const owner = cols[1] ? cols[1].replace(/"/g, '').trim() : "";
 
                     if (owner.toLowerCase().includes(rawVal) || code.toLowerCase().includes(rawVal)) {
                         foundList.push({
