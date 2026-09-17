@@ -69,6 +69,35 @@
             font-weight: 500;
         }
 
+        /* Тіл ауыстырғыш стильдері */
+        .lang-switcher {
+            display: flex;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 3px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .lang-btn.active {
+            background: #ffffff;
+            color: var(--accent-blue);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
         main {
             flex: 1;
             display: flex;
@@ -82,13 +111,11 @@
             padding: 45px 35px;
             border-radius: 16px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            max-width: 520px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
             border: 1px solid var(--border-color);
             animation: fadeIn 0.6s ease-out;
-            position: relative;
-            overflow: hidden;
         }
 
         @keyframes fadeIn {
@@ -96,42 +123,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Анимациялық иконкалар эффектісі */
-        .animated-icon {
-            font-size: 2.2rem;
-            display: inline-block;
-            animation: floatIcon 3s ease-in-out infinite;
-            margin-bottom: 10px;
-        }
-
-        @keyframes floatIcon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .main-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 18px;
-        }
-
-        .main-logo-circle {
-            width: 65px;
-            height: 65px;
-            object-fit: contain;
-        }
-
-        .main-logo-rect {
-            height: 52px;
-            object-fit: contain;
-        }
-
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             color: var(--deep-blue);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 700;
             letter-spacing: -0.02em;
         }
@@ -139,7 +134,7 @@
         p {
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-bottom: 22px;
+            margin-bottom: 28px;
             line-height: 1.5;
         }
 
@@ -156,28 +151,9 @@
             color: var(--text-dark);
         }
 
-        /* Жылжып тұратын титр (Ticker) стилі */
-        .ticker-wrapper {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            border-radius: 8px;
-            overflow: hidden;
-            white-space: nowrap;
-            padding: 6px 10px;
-            margin-bottom: 10px;
-            font-size: 0.8rem;
-            color: #0369a1;
-            font-weight: 500;
-        }
-
-        .ticker-text {
-            display: inline-block;
-            animation: tickerMove 14s linear infinite;
-        }
-
-        @keyframes tickerMove {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+        .input-wrapper {
+            position: relative;
+            width: 100%;
         }
 
         input[type="text"] {
@@ -189,6 +165,7 @@
             outline: none;
             transition: all 0.2s;
             background-color: #fafafa;
+            color: var(--text-dark);
         }
 
         input[type="text"]:focus {
@@ -197,7 +174,34 @@
             box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
         }
 
-        button {
+        .placeholder-ticker {
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            width: calc(100% - 32px);
+            overflow: hidden;
+            pointer-events: none;
+            white-space: nowrap;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .ticker-inner {
+            display: inline-block;
+            animation: tickerMove 14s linear infinite;
+        }
+
+        @keyframes tickerMove {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        input[type="text"]:not(:placeholder-shown) + .placeholder-ticker {
+            display: none;
+        }
+
+        button.action-btn {
             background-color: var(--accent-blue);
             color: white;
             border: none;
@@ -208,13 +212,14 @@
             width: 100%;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.1s;
+            margin-top: 5px;
         }
 
-        button:hover {
+        button.action-btn:hover {
             background-color: var(--accent-hover);
         }
 
-        button:active {
+        button.action-btn:active {
             transform: scale(0.99);
         }
 
@@ -255,45 +260,101 @@
         <div class="header-left">
             <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="header-logo-circle" onerror="this.style.display='none'">
             <div>
-                <div class="header-title">АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</div>
+                <div class="header-title" id="headerTitle">АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</div>
                 <div class="header-subtitle">«BILIM QAZYNA» КММ</div>
             </div>
         </div>
-        <img src="bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'">
+        
+        <!-- Тіл ауыстырғыш батырмалары -->
+        <div class="lang-switcher">
+            <button class="lang-btn active" id="btnKK" onclick="setLanguage('kk')">KZ</button>
+            <button class="lang-btn" id="btnRU" onclick="setLanguage('ru')">RU</button>
+        </div>
     </header>
 
     <main>
         <div class="container">
-            <div class="main-logos">
-                <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="main-logo-circle" onerror="this.style.display='none'">
-                <img src="bilim_logo.png" alt="Bilim Qazyna" class="main-logo-rect" onerror="this.style.display='none'">
-            </div>
-            
-            <div class="animated-icon">🛡️</div>
-            <h1>Түпнұсқалықты анықтау модулі</h1>
-            <p>Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз</p>
+            <h1 id="mainTitle">Түпнұсқалықты анықтау модулі</h1>
+            <p id="mainDesc">Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз</p>
             
             <div class="input-group">
-                <label for="docId">Құжат коды немесе аты-жөніңізді енгізіңіз</label>
+                <label id="inputLabel" for="docId">Құжат коды немесе аты-жөніңізді енгізіңіз</label>
                 
-                <!-- Жылжып тұратын титр түріндегі мысал -->
-                <div class="ticker-wrapper">
-                    <div class="ticker-text">💡 Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы</div>
+                <div class="input-wrapper">
+                    <input type="text" id="docId" placeholder="" oninput="handleInput(this)">
+                    <div class="placeholder-ticker" id="tickerPlaceholder">
+                        <div class="ticker-inner" id="tickerText">Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы</div>
+                    </div>
                 </div>
-
-                <input type="text" id="docId" placeholder="Кодты немесе аты-жөнді жазыңыз...">
             </div>
 
-            <button onclick="checkDocument()">🔍 Тексеру</button>
+            <button class="action-btn" id="checkBtn" onclick="checkDocument()">Тексеру</button>
             <div id="resultBox" class="result-box"></div>
         </div>
     </main>
 
-    <footer>
+    <footer id="footerText">
         &copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.
     </footer>
 
     <script>
+        const translations = {
+            kk: {
+                title: "ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ",
+                headerTitle: "АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ",
+                mainTitle: "Түпнұсқалықты анықтау модулі",
+                mainDesc: "Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз",
+                inputLabel: "Құжат коды немесе аты-жөніңізді енгізіңіз",
+                tickerText: "Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы",
+                checkBtn: "Тексеру",
+                footer: "&copy; 2026 «BILIM QAZYNA» коммуналдық мемлекеттік мекемесі. Барлық құқықтар қорғалған.",
+                emptyError: "Құжат кодын немесе аты-жөнді енгізіңіз!",
+                successMsg: " бойынша деректер жүйеден табылды және түпнұсқа болып расталды."
+            },
+            ru: {
+                title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЮБИНСК",
+                headerTitle: "ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
+                mainTitle: "Модуль проверки подлинности",
+                mainDesc: "Введите данные для проверки подлинности документа или сертификата",
+                inputLabel: "Введите код документа или ФИО",
+                tickerText: "Например: BQ-D-2026-478 или Азаматов Айдын Жарасұлы",
+                checkBtn: "Проверить",
+                footer: "&copy; 2026 КГУ «BILIM QAZYNA». Все права защищены.",
+                emptyError: "Введите код документа или ФИО!",
+                successMsg: " данные найдены в системе и подтверждены как подлинные."
+            }
+        };
+
+        let currentLang = 'kk';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('btnKK').className = lang === 'kk' ? 'lang-btn active' : 'lang-btn';
+            document.getElementById('btnRU').className = lang === 'ru' ? 'lang-btn active' : 'lang-btn';
+
+            document.getElementById('headerTitle').innerText = translations[lang].headerTitle;
+            document.getElementById('mainTitle').innerText = translations[lang].mainTitle;
+            document.getElementById('mainDesc').innerText = translations[lang].mainDesc;
+            document.getElementById('inputLabel').innerText = translations[lang].inputLabel;
+            document.getElementById('tickerText').innerText = translations[lang].tickerText;
+            document.getElementById('checkBtn').innerText = translations[lang].checkBtn;
+            document.getElementById('footerText').innerHTML = translations[lang].footer;
+            document.title = translations[lang].title;
+
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('docId').value = '';
+            document.getElementById('tickerPlaceholder').style.display = 'block';
+        }
+
+        function handleInput(input) {
+            const ticker = document.getElementById('tickerPlaceholder');
+            if (input.value.trim() !== '') {
+                ticker.style.display = 'none';
+            } else {
+                ticker.style.display = 'block';
+            }
+        }
+
         function checkDocument() {
             const val = document.getElementById('docId').value.trim();
             const resultBox = document.getElementById('resultBox');
@@ -301,13 +362,17 @@
             if(!val) {
                 resultBox.style.display = 'block';
                 resultBox.className = 'result-box result-error';
-                resultBox.innerHTML = '⚠️ Құжат кодын немесе аты-жөнді енгізіңіз!';
+                resultBox.innerHTML = translations[currentLang].emptyError;
                 return;
             }
             
             resultBox.style.display = 'block';
             resultBox.className = 'result-box result-success';
-            resultBox.innerHTML = '✓ «' + val + '» бойынша деректер жүйеден табылды және түпнұсқа болып расталды.';
+            if (currentLang === 'kk') {
+                resultBox.innerHTML = '✓ «' + val + '»' + translations[currentLang].successMsg;
+            } else {
+                resultBox.innerHTML = '✓ «' + val + '»' + translations[currentLang].successMsg;
+            }
         }
     </script>
 </body>
