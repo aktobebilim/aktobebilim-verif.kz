@@ -111,26 +111,26 @@
 
         .container {
             background: var(--card-bg);
-            padding: 45px 35px;
+            padding: 40px 30px;
             border-radius: 16px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            max-width: 540px;
+            max-width: 520px;
             width: 100%;
             text-align: center;
             border: 1px solid var(--border-color);
         }
 
         h1 {
-            font-size: 1.45rem;
+            font-size: 1.4rem;
             color: var(--deep-blue);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 700;
         }
 
         p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 28px;
+            font-size: 0.88rem;
+            margin-bottom: 24px;
             line-height: 1.5;
         }
 
@@ -214,13 +214,20 @@
             background-color: var(--accent-hover);
         }
 
+        /* Толық мәліметтер шығатын блок стилі */
         .result-box {
-            margin-top: 25px;
-            padding: 20px;
+            margin-top: 20px;
+            padding: 16px 20px;
             border-radius: 12px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             text-align: left;
             display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .result-success {
@@ -238,7 +245,7 @@
 
         .doc-details-title {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -250,8 +257,12 @@
         .doc-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
-            font-size: 0.88rem;
+        }
+
+        .doc-row:last-child {
+            margin-bottom: 0;
         }
 
         .doc-label {
@@ -338,7 +349,9 @@
                 lblType: "Құжат түрі:",
                 lblOrg: "Берген мекеме:",
                 lblDate: "Берілген күні:",
-                lblStatus: "Мәртебесі:"
+                lblStatus: "Мәртебесі:",
+                statusActive: "Белсенді (Түпнұсқа)",
+                docTypeVal: "Сертификат / Куәлік"
             },
             ru: {
                 title: "МОДУЛЬ ПРОВЕРКИ ПОДЛИННОСТИ | ОТДЕЛ ОБРАЗОВАНИЯ ГОРОДА АКТЕБЕ",
@@ -355,8 +368,10 @@
                 lblCode: "Регистрационный код:",
                 lblType: "Тип документа:",
                 lblOrg: "Выдавший орган:",
-                lblДата: "Дата выдачи:",
-                lblStatus: "Статус:"
+                lblDate: "Дата выдачи:",
+                lblStatus: "Статус:",
+                statusActive: "Активен (Оригинал)",
+                docTypeVal: "Сертификат / Свидетельство"
             }
         };
 
@@ -405,15 +420,14 @@
             resultBox.style.display = 'block';
             resultBox.className = 'result-box result-success';
             
-            // Толық ресми мәліметтер кестесі
             resultBox.innerHTML = `
                 <div class="doc-details-title">✓ ${t.docTitle}</div>
                 <div class="doc-row"><span class="doc-label">${t.lblOwner}</span><span class="doc-value">${val}</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblCode}</span><span class="doc-value">BQ-2026-8941</span></div>
-                <div class="doc-row"><span class="doc-label">${t.lblType}</span><span class="doc-value">${currentLang === 'kk' ? 'Сертификат / Куәлік' : 'Сертификат / Свидетельство'}</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblType}</span><span class="doc-value">${t.docTypeVal}</span></div>
                 <div class="doc-row"><span class="doc-label">${t.lblOrg}</span><span class="doc-value">«BILIM QAZYNA» КММ</span></div>
-                <div class="doc-row"><span class="doc-label">${t.lblDate || 'Берілген күні:'}</span><span class="doc-value">17.09.2026</span></div>
-                <div class="doc-row"><span class="doc-label">${t.lblStatus}</span><span class="doc-value" style="color: #15803d; font-weight: 700;">${currentLang === 'kk' ? 'Белсенді (Түпнұсқа)' : 'Активен (Оригинал)'}</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblDate}</span><span class="doc-value">17.09.2026</span></div>
+                <div class="doc-row"><span class="doc-label">${t.lblStatus}</span><span class="doc-value" style="color: #15803d; font-weight: 700;">${t.statusActive}</span></div>
             `;
         }
     </script>
