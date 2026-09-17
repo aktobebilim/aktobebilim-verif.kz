@@ -6,7 +6,7 @@
     <title>ТҮПНҰСҚАЛЫҚТЫ АНЫҚТАУ МОДУЛІ | АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</title>
     <style>
         :root {
-            --primary-bg: #f0s192f;
+            --primary-bg: #f8fafc;
             --primary-light: #172a45;
             --accent-blue: #1d4ed8;
             --accent-hover: #1c40af;
@@ -20,7 +20,7 @@
         * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
 
         body {
-            background-color: #f1f5f9;
+            background-color: var(--primary-bg);
             color: var(--text-dark);
             margin: 0;
             padding: 0;
@@ -46,12 +46,12 @@
         }
 
         .header-logos img {
-            height: 50px;
+            height: 45px;
             object-fit: contain;
         }
 
         .header-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--deep-blue);
         }
@@ -69,27 +69,33 @@
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
+            max-width: 520px;
             width: 100%;
             text-align: center;
         }
 
-        .container img.main-logo {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
             margin-bottom: 20px;
         }
 
+        .logos-container img {
+            height: 65px;
+            object-fit: contain;
+        }
+
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--deep-blue);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         p {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-bottom: 25px;
         }
 
@@ -152,15 +158,19 @@
 
     <header>
         <div class="header-logos">
-            <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі">
-            <img src="bilim_logo.png" alt="Bilim Qazyna">
+            <!-- Бірінші логотип (Ақтөбе білім бөлімі) -->
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAwACAAAAFAAAABIAAwACAAAAFAAAABIKAAIAAAANAAAAICSAAwACAAAAFAAAAI6SAwACAAAAFAAAAJ6RBwAE<div>..." alt="Ақтөбе қаласының білім бөлімі">
+            <!-- Екінші логотип (Bilim Qazyna) -->
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA..." alt="Bilim Qazyna">
         </div>
         <div class="header-title">Ақтөбе қаласының білім бөлімі</div>
     </header>
 
     <main>
         <div class="container">
-            <img src="aktobe_logo.jpg" alt="Эмблема" class="main-logo">
+            <div class="logos-container">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAwACAAAAFAAAABIAAwACAAAAFAAAABIKAAIAAAANAAAAICSAAwACAAAAFAAAAI6SAwACAAAAFAAAAJ6RBwAE<div>..." alt="Эмблема">
+            </div>
             <h1>Түпнұсқалықты анықтау модулі</h1>
             <p>Құжаттың түпнұсқалығын тексеру үшін сәйкестендіру нөмірін енгізіңіз</p>
             
