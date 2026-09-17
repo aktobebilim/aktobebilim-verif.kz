@@ -87,6 +87,8 @@
             text-align: center;
             border: 1px solid var(--border-color);
             animation: fadeIn 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
         }
 
         @keyframes fadeIn {
@@ -94,12 +96,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Анимациялық иконкалар эффектісі */
+        .animated-icon {
+            font-size: 2.2rem;
+            display: inline-block;
+            animation: floatIcon 3s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
         .main-logos {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin-bottom: 22px;
+            margin-bottom: 18px;
         }
 
         .main-logo-circle {
@@ -114,9 +129,9 @@
         }
 
         h1 {
-            font-size: 1.45rem;
+            font-size: 1.4rem;
             color: var(--deep-blue);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 700;
             letter-spacing: -0.02em;
         }
@@ -124,7 +139,7 @@
         p {
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-bottom: 28px;
+            margin-bottom: 22px;
             line-height: 1.5;
         }
 
@@ -139,6 +154,30 @@
             font-size: 0.85rem;
             margin-bottom: 8px;
             color: var(--text-dark);
+        }
+
+        /* Жылжып тұратын титр (Ticker) стилі */
+        .ticker-wrapper {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 6px 10px;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            color: #0369a1;
+            font-weight: 500;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            animation: tickerMove 14s linear infinite;
+        }
+
+        @keyframes tickerMove {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
         input[type="text"] {
@@ -214,30 +253,38 @@
 
     <header>
         <div class="header-left">
-            <img src="https://aktobebilim.github.io/aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="header-logo-circle" onerror="this.onerror=null; this.src='эмблема горооо (2).png';">
+            <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="header-logo-circle" onerror="this.style.display='none'">
             <div>
                 <div class="header-title">АҚТӨБЕ ҚАЛАСЫНЫҢ БІЛІМ БӨЛІМІ</div>
                 <div class="header-subtitle">«BILIM QAZYNA» КММ</div>
             </div>
         </div>
-        <img src="https://aktobebilim.github.io/bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'">
+        <img src="bilim_logo.png" alt="Bilim Qazyna" class="header-logo-rect" onerror="this.style.display='none'">
     </header>
 
     <main>
         <div class="container">
             <div class="main-logos">
-                <img src="https://aktobebilim.github.io/aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="main-logo-circle" onerror="this.style.display='none'">
-                <img src="https://aktobebilim.github.io/bilim_logo.png" alt="Bilim Qazyna" class="main-logo-rect" onerror="this.style.display='none'">
+                <img src="aktobe_logo.jpg" alt="Ақтөбе қаласының білім бөлімі" class="main-logo-circle" onerror="this.style.display='none'">
+                <img src="bilim_logo.png" alt="Bilim Qazyna" class="main-logo-rect" onerror="this.style.display='none'">
             </div>
+            
+            <div class="animated-icon">🛡️</div>
             <h1>Түпнұсқалықты анықтау модулі</h1>
-            <p>Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін сәйкестендіру нөмірін енгізіңіз</p>
+            <p>Құжаттың немесе сертификаттың түпнұсқалығын тексеру үшін мәліметтерді енгізіңіз</p>
             
             <div class="input-group">
-                <label for="docId">Құжат нөмірі немесе шифры</label>
-                <input type="text" id="docId" placeholder="Мысалы: AKT-2026-001">
+                <label for="docId">Құжат коды немесе аты-жөніңізді енгізіңіз</label>
+                
+                <!-- Жылжып тұратын титр түріндегі мысал -->
+                <div class="ticker-wrapper">
+                    <div class="ticker-text">💡 Мысалы: BQ-D-2026-478 немесе Азаматов Айдын Жарасұлы</div>
+                </div>
+
+                <input type="text" id="docId" placeholder="Кодты немесе аты-жөнді жазыңыз...">
             </div>
 
-            <button onclick="checkDocument()">Тексеру</button>
+            <button onclick="checkDocument()">🔍 Тексеру</button>
             <div id="resultBox" class="result-box"></div>
         </div>
     </main>
@@ -254,13 +301,13 @@
             if(!val) {
                 resultBox.style.display = 'block';
                 resultBox.className = 'result-box result-error';
-                resultBox.innerHTML = 'Құжат нөмірін енгізіңіз!';
+                resultBox.innerHTML = '⚠️ Құжат кодын немесе аты-жөнді енгізіңіз!';
                 return;
             }
             
             resultBox.style.display = 'block';
             resultBox.className = 'result-box result-success';
-            resultBox.innerHTML = '✓ «' + val + '» нөмірлі құжат жүйеде табылды және түпнұсқа болып табылады.';
+            resultBox.innerHTML = '✓ «' + val + '» бойынша деректер жүйеден табылды және түпнұсқа болып расталды.';
         }
     </script>
 </body>
